@@ -24,7 +24,7 @@ public class PlayerAimSwordState : PlayerState
         base.Update();
         if (Input.GetButtonUp("ThrowSword"))
         {
-            stateMachine.ChangeState(player.throwSwordState);
+            stateMachine.ChangeState(player.idleState);
         }
     }
 }

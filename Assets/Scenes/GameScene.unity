@@ -6764,6 +6764,7 @@ GameObject:
   - component: {fileID: 1420860695}
   - component: {fileID: 1420860694}
   - component: {fileID: 1420860693}
+  - component: {fileID: 1420860696}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -6815,6 +6816,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1420860696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420860692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a23cb04c7c7c445a4909552d846dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  isUnlock: 0
+  swordPrefab: {fileID: 7531063431266381386, guid: 895e4d93586411d4c881ef436455ad88, type: 3}
+  launchDir: {x: 10, y: 12}
+  swordGravity: 2
 --- !u!1 &1473289056
 GameObject:
   m_ObjectHideFlags: 0

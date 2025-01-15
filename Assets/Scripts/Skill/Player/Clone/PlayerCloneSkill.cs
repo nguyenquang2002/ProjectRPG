@@ -19,5 +19,6 @@ public class PlayerCloneSkill : Skill
     {
         GameObject newClone = Instantiate(clone);
         newClone.GetComponent<PlayerCloneSetup>().SetupClone(_clonePosition, cloneDuration, canAttack, _facingDir);
+        UseSkill();
     }
 }
