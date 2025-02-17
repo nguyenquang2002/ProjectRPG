@@ -17,16 +17,19 @@ public class Player : Character
     public PlayerCounterAttackState counterAttackState { get; private set; }
     public PlayerAimSwordState aimSwordState { get; private set; }
     public PlayerThrowSwordState throwSwordState { get; private set; }
+    public PlayerCatchSwordState catchSwordState { get; private set; }
     #endregion
 
     [Header("Attack Details")]
     public float[] attackMovement;
     public float counterAttackDuration = 0.2f;
     
+    
     public bool isBusy { get; private set; }
 
     [Header("Movement")]
     [SerializeField] public float speed = 5;
+    [SerializeField] public float catchSwordImpact = 1f;
 
     [Header("Jump")]
     [SerializeField] public float jumpForce = 7;
@@ -38,7 +41,9 @@ public class Player : Character
     private float dashTimer = 0;
     [SerializeField] private float dashCooldown = 0.4f;
 
-    public SkillManager skill;
+    
+    public SkillManager skill { get; private set; }
+    public GameObject sword { get; private set; }
 
     private void Awake()
     {
@@ -54,14 +59,14 @@ public class Player : Character
         counterAttackState = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
         aimSwordState = new PlayerAimSwordState(this, stateMachine, "AimSword");
         throwSwordState = new PlayerThrowSwordState(this, stateMachine, "ThrowSword");
-
-        skill = SkillManager.instance;
+        catchSwordState = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
     }
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        skill = SkillManager.instance;
         stateMachine.Initialize(idleState);
 
     }
@@ -72,6 +77,16 @@ public class Player : Character
         base.Update();
         stateMachine.curentState.Update();
         CheckDashInput();
+    }
+
+    public void AssignNewSword(GameObject _newSword)
+    {
+        sword = _newSword;
+    }
+    public void CatchSword()
+    {
+        stateMachine.ChangeState(catchSwordState);
+        sword = null;
     }
 
     public IEnumerator BusyFor(float _second)
@@ -96,25 +111,6 @@ public class Player : Character
             if (dashDir == 0)
                 dashDir = facingDir;
             stateMachine.ChangeState(dashState);
-        }
-    }
-
-    
-
-    private void AnimatorController()
-    {
-        bool isMoving = rb.velocity.x != 0;
-        animator.SetFloat("velY", rb.velocity.y);
-        animator.SetBool("isMoving", isMoving);
-        animator.SetBool("isGrounded", IsGroundDetected());
-        animator.SetBool("isDashing", dashTimer > 0);
-    }
-
-    private void Jump()
-    {
-        if (IsGroundDetected())
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
     }
 

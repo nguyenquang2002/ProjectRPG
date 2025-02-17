@@ -21,7 +21,7 @@ public class PlayerGroundedState : PlayerState
     public override void Update()
     {
         base.Update();
-        if (Input.GetButtonDown("ThrowSword"))
+        if (Input.GetButtonDown("ThrowSword") && HasNoSword())
         {
             stateMachine.ChangeState(player.aimSwordState);
         }
@@ -42,5 +42,14 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.airState);
         }
+    }
+    private bool HasNoSword()
+    {
+        if (!player.sword)
+        {
+            return true;
+        }
+        player.sword.GetComponent<SwordController>().ReturnSword();
+        return false;
     }
 }
